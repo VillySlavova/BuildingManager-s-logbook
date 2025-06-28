@@ -15,8 +15,20 @@ namespace BuildingManager
             var apartmentLog = ApartmentLog.Instance;
             var residentLog = ResidentLog.Instance;
             var search = new SearchHandler(log, apartmentLog, residentLog);
-            var storage = new LogStorage("Entry_log", "Resident_log", "Apartment_log");
+            var storage = new LogStorage("Entry_log.json", "Resident_log.json", "Apartment_log.json");
             var menu = new MenuHandler(log, search, storage, residentLog, apartmentLog);
+
+            apartmentLog.AddEntry(new Apartment(1, 1));
+            apartmentLog.AddEntry(new Apartment(2, 1));
+            apartmentLog.AddEntry(new Apartment(3, 1));
+            apartmentLog.AddEntry(new Apartment(1, 2));
+            apartmentLog.AddEntry(new Apartment(2, 2));
+
+            storage.SaveApartmentLog(apartmentLog);
+
+            storage.LoadApartments();
+            storage.LoadEntries();
+            storage.LoadResidents();
 
             menu.Start();
 
@@ -42,6 +54,8 @@ namespace BuildingManager
             }
 
             storage.SaveLog(log);
+            storage.SaveApartmentLog(apartmentLog);
+            storage.SaveResidentsLog(residentLog);
         }
     }
 }
