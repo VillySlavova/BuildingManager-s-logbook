@@ -10,7 +10,7 @@ namespace BuildingManager.Models
 
         public Resident(string name, string phoneNumber, bool isOwner)
         {
-            if (string.IsNullOrWhiteSpace(Name))
+            if (string.IsNullOrWhiteSpace(name))
                 throw new ArgumentException("Name can not be empty");
             if (string.IsNullOrWhiteSpace(phoneNumber))
                 throw new ArgumentException("Phone number can not be empty");

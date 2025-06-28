@@ -34,5 +34,9 @@ namespace BuildingManager.Services
         {
             return entries;
         }
+        public void LoadFromList(List<Entry> loadedEntries)
+        {
+            entries = new List<Entry>(loadedEntries);
+        }
     }
 }
