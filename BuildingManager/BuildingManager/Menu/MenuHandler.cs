@@ -26,8 +26,18 @@ namespace BuildingManager.Menu
             PrintWelcome();
             while (true)
             {
-                PrintMainMenu();
-                string input = Console.ReadLine();
+                string input;
+                do
+                {
+                    PrintMainMenu();
+                    input = Console.ReadLine();
+                    if (string.IsNullOrWhiteSpace(input))
+                    {
+                        Console.WriteLine("Input is empty. Please enter a number from 0 to 5.");
+                    }
+                }
+                while (string.IsNullOrWhiteSpace(input));
+
                 Console.Clear();
                 if (!HandleChoiceMain(input))
                 {
@@ -91,7 +101,16 @@ namespace BuildingManager.Menu
                 {
                     case "1":
                         PrintMenuEntries();
-                        secondaryInput = Console.ReadLine();
+                        do
+                        {
+                            secondaryInput = Console.ReadLine();
+                            if (string.IsNullOrWhiteSpace(secondaryInput))
+                            {
+                                Console.WriteLine("Input is empty. Please enter a number from 0 to 5.");
+                            }
+                        }
+                        while (string.IsNullOrWhiteSpace(secondaryInput));
+
                         Console.Clear();
                         
                         if (!HandleChoiceEntry(secondaryInput))
@@ -102,7 +121,16 @@ namespace BuildingManager.Menu
                         break;
                     case "2":
                         PrintMenuResidents();
-                        secondaryInput = Console.ReadLine();
+                        do
+                        {
+                            secondaryInput = Console.ReadLine();
+                            if (string.IsNullOrWhiteSpace(secondaryInput))
+                            {
+                                Console.WriteLine("Input is empty. Please enter a number from 0 to 5.");
+                            }
+                        }
+                        while (string.IsNullOrWhiteSpace(secondaryInput));
+
                         Console.Clear();
                         
                         if (!HandleChoiceResidents(secondaryInput))
@@ -113,7 +141,16 @@ namespace BuildingManager.Menu
                         break;
                     case "3":
                         PrintMenuApartments();
-                        secondaryInput = Console.ReadLine();
+                        do
+                        {
+                            secondaryInput = Console.ReadLine();
+                            if (string.IsNullOrWhiteSpace(secondaryInput))
+                            {
+                                Console.WriteLine("Input is empty. Please enter a number from 0 to 4.");
+                            }
+                        }
+                        while (string.IsNullOrWhiteSpace(secondaryInput));
+
                         Console.Clear();
                         
                         if (!HandleChoiceApartment(secondaryInput))
@@ -125,6 +162,8 @@ namespace BuildingManager.Menu
                     case "0":
                         Console.WriteLine("Exiting...");
                         return false;
+                    case "":
+                        break;
                     default:
                         Console.WriteLine("Invalid option, please try again.");
                         break;
@@ -160,6 +199,8 @@ namespace BuildingManager.Menu
                 case "0":
                     Console.WriteLine("Going Back...");
                     return false;
+                case "":
+                    break;
                 default:
                     Console.WriteLine("Invalid option, please try again.");
                     break;
@@ -191,6 +232,8 @@ namespace BuildingManager.Menu
                 case "0":
                     Console.WriteLine("Going Back...");
                     return false;
+                case "":
+                    break;  
                 default:
                     Console.WriteLine("Invalid option, please try again.");
                     break;
@@ -214,7 +257,7 @@ namespace BuildingManager.Menu
                     SearchResidents();
                     break;
                 case "4":
-                    storage.SaveLog(log);
+                    storage.SaveResidentsLog(residentLog);
                     Console.WriteLine("Log saved.");
                     break;
                 case "5":
@@ -225,6 +268,8 @@ namespace BuildingManager.Menu
                 case "0":
                     Console.WriteLine("Going Back...");
                     return false;
+                case "":
+                    break;
                 default:
                     Console.WriteLine("Invalid option, please try again.");
                     break;
@@ -394,7 +439,16 @@ namespace BuildingManager.Menu
         private void SearchResidents()
         {
             Console.Write("Search by Apartment Number (leave blank to skip): ");
-            int apartmentNumber = int.Parse(Console.ReadLine());
+            string inputApNumber = Console.ReadLine();
+            int apartmenrNumber = 0;
+            if (string.IsNullOrWhiteSpace(inputApNumber))
+            {
+                apartmenrNumber = 0;
+            }
+            else
+            {
+                apartmenrNumber = int.Parse(inputApNumber);
+            }
 
             Console.Write("Search by Name (leave blank to skip): ");
             string name = Console.ReadLine();
@@ -412,7 +466,7 @@ namespace BuildingManager.Menu
 
             NameMatchType matchType = SelectSearchType();
 
-            var results = search.SearchResident(phoneNumber: phoneNumber, name: name, apartmentNumber: apartmentNumber, matchType: matchType);
+            var results = search.SearchResident(phoneNumber: phoneNumber, name: name, apartmentNumber: apartmenrNumber, matchType: matchType);
             Console.WriteLine($"\nFound {results.Count} matching entries: ");
 
             foreach (var resident in results)
@@ -424,12 +478,30 @@ namespace BuildingManager.Menu
         private void SearchApartment()
         {
             Console.Write("Search by Apartment Number (leave blank to skip): ");
-            int apartmentNumber = int.Parse(Console.ReadLine());
+            string inputApNumber = Console.ReadLine();
+            int apartmenrNumber = 0;
+            if (string.IsNullOrWhiteSpace(inputApNumber))
+            {
+                apartmenrNumber = 0;
+            }
+            else
+            {
+                apartmenrNumber = int.Parse(inputApNumber);
+            }
 
             Console.Write("Search by Floor Number (leave blank to skip): ");
-            int floorNumber = int.Parse(Console.ReadLine());
+            string inputFlNumber = Console.ReadLine();
+            int floorNumber = 0;
+            if (string.IsNullOrWhiteSpace(inputFlNumber))
+            {
+                floorNumber = 0;
+            }
+            else
+            {
+                floorNumber = int.Parse(inputFlNumber);
+            }
 
-            var results = search.SearchApartment(number: apartmentNumber, floor: floorNumber);
+            var results = search.SearchApartment(number: apartmenrNumber, floor: floorNumber);
             Console.WriteLine($"\nFound {results.Count} matching entries: ");
 
             foreach (var apartment in results)
