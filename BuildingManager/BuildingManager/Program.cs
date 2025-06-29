@@ -26,9 +26,9 @@ namespace BuildingManager
 
             storage.SaveApartmentLog(apartmentLog);
 
-            storage.LoadApartments();
-            storage.LoadEntries();
-            storage.LoadResidents();
+            apartmentLog.LoadFromList(storage.LoadApartments());
+            log.LoadFromList(storage.LoadEntries());
+            residentLog.LoadFromList(storage.LoadResidents());
 
             menu.Start();
 
