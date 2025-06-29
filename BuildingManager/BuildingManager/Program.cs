@@ -18,6 +18,18 @@ namespace BuildingManager
             var storage = new LogStorage("Entry_log", "Resident_log", "Apartment_log");
             var menu = new MenuHandler(log, search, storage, residentLog, apartmentLog);
 
+            apartmentLog.AddEntry(new Apartment(1, 1));
+            apartmentLog.AddEntry(new Apartment(2, 1));
+            apartmentLog.AddEntry(new Apartment(3, 1));
+            apartmentLog.AddEntry(new Apartment(1, 2));
+            apartmentLog.AddEntry(new Apartment(2, 2));
+
+            storage.SaveApartmentLog(apartmentLog);
+
+            apartmentLog.LoadFromList(storage.LoadApartments());
+            log.LoadFromList(storage.LoadEntries());
+            residentLog.LoadFromList(storage.LoadResidents());
+
             menu.Start();
 
             log.AddEntry(new Entry
